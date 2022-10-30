@@ -24,39 +24,61 @@ namespace EmployeeMCrud.Controllers
         [Route("GetDepartment")]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _department.GetDepartment());
+            StatusResult<IEnumerable<Department>> obj = new StatusResult<IEnumerable<Department>>();
+            obj.Message="Fetched Successfully";
+            obj.Status="FETCHED";
+            obj.Result = await _department.GetDepartment();
+            //return Ok(await _department.GetDepartment());
+            return Ok(obj);
         }
         [HttpGet]
         [Route("GetDepartmentByID/{Id}")]
         public async Task<IActionResult> GetDeptById(int Id)
         {
-            return Ok(await _department.GetDepartmentByID(Id));
+            StatusResult<Department> obj = new StatusResult<Department>();
+            obj.Message = "Successfull fetched.";
+            obj.Status="OK";
+            obj.Result = await _department.GetDepartmentByID(Id);
+            //return Ok(await _department.GetDepartmentByID(Id));
+            return Ok(obj);
         }
         [HttpPost]
         [Route("AddDepartment")]
-        public async Task<IActionResult> Post(Department dep)
+        public async Task<ActionResult> Post(Department dep)
         {
             var result = await _department.InsertDepartment(dep);
+
             if (result.DepartmentId == 0)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Something Went Wrong");
             }
-            return Ok("Added Successfully");
+            //return Ok("Added Successfully");
+            StatusResult<string> obj = new StatusResult<string>();
+            obj.Message="Added Successfully";
+            obj.Status="CREATED";
+            return StatusCode(StatusCodes.Status201Created,obj);
         }
         [HttpPut]
         [Route("UpdateDepartment")]
         public async Task<IActionResult> Put(Department dep)
         {
+            StatusResult<string> obj =new StatusResult<string>();
             await _department.UpdateDepartment(dep);
-            return Ok("Updated Successfully");
+            obj.Message="Updated Successfully";
+            obj.Status="SUCCESS";
+            return Ok(obj);
         }
         [HttpDelete]
         //[HttpDelete("{id}")]
         [Route("DeleteDepartment")]
-        public JsonResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             _department.DeleteDepartment(id);
-            return new JsonResult("Deleted Successfully");
+            StatusResult<string> obj = new StatusResult<string>();
+            obj.Message="Deleted Successfully";
+            obj.Status="SUCCESS";
+            //return new JsonResult("Deleted Successfully");
+            return Ok(obj);
         }
     }
 }

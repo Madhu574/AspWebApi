@@ -30,13 +30,24 @@ namespace EmployeeMCrud.Controllers
         [Route("GetEmployee")]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _employee.GetEmployees());
+            StatusResult<IEnumerable<Employee>> obj = new StatusResult<IEnumerable<Employee>>();
+            obj.Message = "Fetched Successfully";
+            obj.Status= "Fetched";
+            obj.Result = await _employee.GetEmployees();
+            /*return Ok(await _employee.GetEmployees());*/
+            return Ok(obj);
+
         }
         [HttpGet]
         [Route("GetEmployeeByID/{Id}")]
         public async Task<IActionResult> GetEmpByID(int Id)
         {
-            return Ok(await _employee.GetEmployeeByID(Id));
+            StatusResult<Employee> obj = new StatusResult<Employee>();
+            obj.Message = "Fetched Successfully";
+            obj.Status= "Fetched";
+            obj.Result = await _employee.GetEmployeeByID(Id);
+            /*return Ok(await _employee.GetEmployeeByID(Id));*/
+            return Ok(obj);
         }
         [HttpPost]
         [Route("AddEmployee")]
@@ -47,12 +58,21 @@ namespace EmployeeMCrud.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Something Went Wrong");
             }
-            return Ok("Added Successfully");
+            StatusResult<string> obj = new StatusResult<string>();
+            obj.Message = "Created Successfully";
+            obj.Status= "SUCCESS";
+            obj.Result = "1";
+            /*return Ok("Added Successfully");*/
+            return Ok(obj);
         }
         [HttpPut]
         [Route("UpdateEmployee")]
         public async Task<IActionResult> Put(Employee emp)
         {
+            StatusResult<Employee> obj = new StatusResult<Employee>();
+            obj.Message = "Updated Successfully";
+            obj.Status= "SUCCESS";
+            obj.Result = await _employee.UpdateEmployee(emp);
             await _employee.UpdateEmployee(emp);
             return Ok("Updated Successfully");
         }
@@ -62,7 +82,12 @@ namespace EmployeeMCrud.Controllers
         public JsonResult Delete(int id)
         {
             var result = _employee.DeleteEmployee(id);
-            return new JsonResult("Deleted Successfully");
+            StatusResult<bool> obj = new StatusResult<bool>();
+            obj.Message = "Deleted Successfully";
+            obj.Status= "SUCCESS";
+            obj.Result = result;
+            //return new JsonResult("Deleted Successfully");
+            return new JsonResult(obj);
         }
 
         [Route("SaveFile")]
@@ -90,10 +115,15 @@ namespace EmployeeMCrud.Controllers
         }
 
         [HttpGet]
-        [Route("GetDepartment")]
+        [Route("GetAllDepartmentNames")]
         public async Task<IActionResult> GetAllDepartmentNames()
         {
-            return Ok(await _department.GetDepartment());
+            StatusResult<IEnumerable<Department>> obj = new StatusResult<IEnumerable<Department>>();
+            obj.Message = "Fetched Successfully";
+            obj.Status= "FETCHED";
+            obj.Result = await _department.GetDepartment();
+            //return Ok(await _department.GetDepartment());
+            return Ok(obj);
         }
     }
 }
