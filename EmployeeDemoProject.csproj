@@ -32,7 +32,4 @@
     <Folder Include="IRepositories\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\business_layer_\business_layer_.csproj" />
-  </ItemGroup>
 </Project>
