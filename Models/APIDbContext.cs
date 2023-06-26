@@ -16,6 +16,11 @@ namespace EmployeeMCrud.Models
             get;
             set;
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Department>().ToTable("Department");
+            builder.Entity<Employee>().ToTable("Employee");
+        }
     }
 }
 

@@ -12,6 +12,7 @@
     "EmployeeMCrud": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "Swagger",
       "applicationUrl": "http://localhost:5840",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

@@ -7,7 +7,7 @@ using EmployeeMCrud.Models;
 using Microsoft.AspNetCore.Mvc;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 
 namespace EmployeeMCrud.Controllers
 {
@@ -31,51 +31,93 @@ namespace EmployeeMCrud.Controllers
         public async Task<IActionResult> Get()
         {
             StatusResult<IEnumerable<Employee>> obj = new StatusResult<IEnumerable<Employee>>();
-            obj.Message = "Fetched Successfully";
-            obj.Status= "Fetched";
-            obj.Result = await _employee.GetEmployees();
-            /*return Ok(await _employee.GetEmployees());*/
-            return Ok(obj);
+            //obj.Message = "Fetched Successfully";
+            //obj.Status = "Fetched";
+            //obj.Result = await _employee.GetEmployees();
+            return Ok(await _employee.GetEmployees());
+            //return Ok(obj);
 
         }
-        [HttpGet]
-        [Route("GetEmployeeByID/{Id}")]
-        public async Task<IActionResult> GetEmpByID(int Id)
-        {
-            StatusResult<Employee> obj = new StatusResult<Employee>();
-            obj.Message = "Fetched Successfully";
-            obj.Status= "Fetched";
-            obj.Result = await _employee.GetEmployeeByID(Id);
-            /*return Ok(await _employee.GetEmployeeByID(Id));*/
-            return Ok(obj);
-        }
+        //[HttpGet]
+        //[Route("GetEmployeeByID/{Id}")]
+        //public async Task<IActionResult> GetEmpByID(int Id)
+        //{
+        //    StatusResult<Employee> obj = new StatusResult<Employee>();
+        //    //obj.Message = "Fetched Successfully";
+        //    //obj.Status= "Fetched";
+        //    //obj.Result = await _employee.GetEmployeeByID(Id);
+        //    return Ok(await _employee.GetEmployeeByID(Id));
+        //    //return Ok(obj);
+        //}
         [HttpPost]
-        [Route("AddEmployee")]
-        public async Task<IActionResult> Post(Employee emp)
+        [HttpPut]
+        [Route("AddEditEmployee")]
+        public async Task<IActionResult> AddEditEmployee(Employee emp)
         {
-            var result = await _employee.InsertEmployee(emp);
-            if (result.EmployeeID == 0)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Something Went Wrong");
-            }
             StatusResult<string> obj = new StatusResult<string>();
-            obj.Message = "Created Successfully";
-            obj.Status= "SUCCESS";
-            obj.Result = "1";
-            /*return Ok("Added Successfully");*/
+
+            if (emp.EmployeeId == 0)
+            {
+                // Insert operation
+                var insertResult = await _employee.InsertEmployee(emp);
+                if (insertResult.EmployeeId == 0)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Something Went Wrong");
+                }
+
+                obj.Message = "Created Successfully";
+                obj.Status = "SUCCESS";
+                obj.Result = "1";
+            }
+            else
+            {
+                // Update operation
+                var updateResult = await _employee.UpdateEmployee(emp);
+
+                if (updateResult == null)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Something Went Wrong");
+                }
+
+                obj.Message = "Updated Successfully";
+                obj.Status = "SUCCESS";
+                obj.Result = "1";
+            }
+
             return Ok(obj);
         }
-        [HttpPut]
-        [Route("UpdateEmployee")]
-        public async Task<IActionResult> Put(Employee emp)
-        {
-            StatusResult<Employee> obj = new StatusResult<Employee>();
-            obj.Message = "Updated Successfully";
-            obj.Status= "SUCCESS";
-            obj.Result = await _employee.UpdateEmployee(emp);
-            await _employee.UpdateEmployee(emp);
-            return Ok("Updated Successfully");
-        }
+        //[HttpPost]
+        //[HttpPut]
+        //[Route("AddEditEmployee")]
+        //public async Task<IActionResult> AddEditEmployee(Employee emp)
+        //{
+        //    StatusResult<string> obj = new StatusResult<string>();
+
+        //    if (emp.EmployeeId == 0)
+        //    {
+        //        var result = await _employee.InsertEmployee(emp);
+
+        //        if (result.EmployeeId == 0)
+        //        {
+        //            return StatusCode(StatusCodes.Status500InternalServerError, "Something Went Wrong");
+        //        }
+
+        //        obj.Message = "Added Successfully";
+        //        //obj.Status = "CREATED";
+        //        return StatusCode(StatusCodes.Status201Created, obj);
+        //    }
+        //    else
+        //    {
+        //        await _employee.UpdateEmployee(emp);
+
+        //        obj.Message = "Updated Successfully";
+        //        //obj.Status = "SUCCESS";
+        //        return Ok(obj);
+        //    }
+        //}
+
+
+
         [HttpDelete]
         [Route("DeleteEmployee")]
         //[HttpDelete("{id}")]
@@ -90,30 +132,7 @@ namespace EmployeeMCrud.Controllers
             return new JsonResult(obj);
         }
 
-        [Route("SaveFile")]
-        [HttpPost]
-        public JsonResult SaveFile()
-        {
-            try
-            {
-                var httpRequest = Request.Form;
-                var postedFile = httpRequest.Files[0];
-                string filename = postedFile.FileName;
-                var physicalPath = _environment.ContentRootPath + "/Photos/" + filename;
-
-                using (var stream = new FileStream(physicalPath, FileMode.Create))
-                {
-                    stream.CopyTo(stream);
-                }
-
-                return new JsonResult(filename);
-            }
-            catch (Exception)
-            {
-                return new JsonResult("anonymous.png");
-            }
-        }
-
+        
         [HttpGet]
         [Route("GetAllDepartmentNames")]
         public async Task<IActionResult> GetAllDepartmentNames()

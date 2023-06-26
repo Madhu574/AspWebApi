@@ -16,11 +16,7 @@ namespace EmployeeMCrud.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+    
 
             modelBuilder.Entity("EmployeeMCrud.Models.Department", b =>
                 {
@@ -32,41 +28,66 @@ namespace EmployeeMCrud.Migrations
 
                     b.Property<string>("DepartmentName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(max)");
 
                     b.HasKey("DepartmentId");
 
                     b.ToTable("Department");
                 });
 
-            modelBuilder.Entity("EmployeeMCrud.Models.Employee", b =>
-                {
-                    b.Property<int>("EmployeeID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+            modelBuilder.Entity<Employee>(b =>
+            {
+                b.Property<int>("EmployeeId")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeID"), 1L, 1);
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"), 1L, 1);
+                b.Property<string>("EmployeeName")
+                .IsRequired()
+                .HasColumnType("varchar");
+                
 
-                    b.Property<DateTime>("DOJ")
-                        .HasColumnType("datetime2");
+                b.Property<string>("FirstName")
+                    .IsRequired()
+                    .HasColumnType("varchar(max)");
 
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("LastName")
+                    .HasColumnType("varchar(max)");
 
-                    b.Property<string>("EmailId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("Designation")
+                    .IsRequired()
+                    .HasColumnType("varchar(max)");
 
-                    b.Property<string>("EmployeeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<int?>("ReportingManagerEmployeeId")
+                    .HasColumnType("int");
 
-                    b.HasKey("EmployeeID");
+                b.Property<string>("Sex")
+                    .HasColumnType("varchar(max)");
 
-                    b.ToTable("Employee");
-                });
-#pragma warning restore 612, 618
+                b.Property<string>("EmployeeAddress")
+                    .HasColumnType("varchar(max)");
+
+                b.Property<string>("State")
+                    .HasColumnType("varchar(max)");
+
+                b.Property<string>("Country")
+                    .HasColumnType("varchar(max)");
+
+                b.Property<int?>("Pincode")
+                    .HasColumnType("int");
+
+                b.Property<int>("DepartmentId")
+                    .HasColumnType("int");
+
+                b.Property<bool>("IsActive")
+                    .HasColumnType("bit")
+                    .HasDefaultValue(true);
+
+                b.HasKey("EmployeeId");
+
+                b.ToTable("Employee");
+            });
+
         }
     }
 }

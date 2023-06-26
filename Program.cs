@@ -60,22 +60,13 @@ app.UseSwaggerUI(c => {
     c.DocumentTitle = "WEB API";
     c.DocExpansion(DocExpansion.List);
 });
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Photos")),
-    RequestPath = "/Photos"
-});
 
 app.Run();
 
 
 
-
-
-
 /*
 
-source: https://www.c-sharpcorner.com/article/net-core-3-1-web-api-crud/
 
 commands:
         dotnet ef migrations add MyFirstMigrations=
@@ -83,12 +74,6 @@ commands:
         dotnet ef migrations remove
         dotnet ef database update MyFirstMigrations
         dotnet ef migrations script
- 
- 
- 
- 
- 
- 
  
  
  */

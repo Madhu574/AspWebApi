@@ -49,6 +49,11 @@ namespace EmployeeMCrud.Repositories
             }
             return result;
         }
+
+        public Task<bool> DepartmentNameExists(string departmentName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

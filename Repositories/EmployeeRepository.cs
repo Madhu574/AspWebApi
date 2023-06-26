@@ -15,8 +15,11 @@ namespace EmployeeMCrud.Repositories
         }
         public async Task<IEnumerable<Employee>> GetEmployees()
         {
-            return await _appDBContext.Employees.ToListAsync();
+            return await _appDBContext.Employees
+                .Where(e => e.EmployeeName != null && e.FirstName != null && e.Designation != null)
+                .ToListAsync();
         }
+
         public async Task<Employee> GetEmployeeByID(int ID)
         {
             return await _appDBContext.Employees.FindAsync(ID);
