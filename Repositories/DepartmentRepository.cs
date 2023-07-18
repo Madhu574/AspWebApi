@@ -54,6 +54,11 @@ namespace EmployeeMCrud.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public Task GetDesignations()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

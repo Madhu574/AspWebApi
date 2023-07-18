@@ -11,6 +11,7 @@ namespace EmployeeMCrud.IRepositories
         Task<Department> UpdateDepartment(Department objDepartment);
         bool DeleteDepartment(int ID);
         Task<bool> DepartmentNameExists(string departmentName);
+        Task GetDesignations();
     }
 }
 

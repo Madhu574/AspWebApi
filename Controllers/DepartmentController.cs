@@ -27,25 +27,22 @@ namespace EmployeeMCrud.Controllers
         {
             StatusResult<IEnumerable<Department>> obj = new StatusResult<IEnumerable<Department>>();
             obj.Message = "Fetched Successfully";
-            //obj.Status = "FETCHED";
-            //obj.Result = await _department.GetDepartment();
-            return Ok(await _department.GetDepartment());
-            //return Ok(obj);
+            obj.Status = "FETCHED";
+            obj.Result = await _department.GetDepartment();
+            //return Ok(await _department.GetDepartment());
+            return Ok(obj);
         }
         [HttpGet]
         [Route("GetDepartmentByID/{Id}")]
         public async Task<IActionResult> GetDeptById(int Id)
         {
-            //    StatusResult<Department> obj = new StatusResult<Department>();
-            //  obj.Message = "Successfull fetched.";
-            //    obj.Status = "OK";
-            //    obj.Result = await _department.GetDepartmentByID(Id);
-            //    //return Ok(await _department.GetDepartmentByID(Id));
-            //    return Ok(obj);
-            StatusResult<Department> obj = new StatusResult<Department>(); var department = await _department.GetDepartmentByID(Id); 
-            if (department == null) { obj.Message = "Department not found."; obj.Status = "ERROR"; return NotFound(obj); }
-            obj.Message = "Successfully fetched."; obj.Status = "OK"; obj.Result = department; return Ok(obj);
-
+              StatusResult<Department> obj = new StatusResult<Department>();
+             //obj.Message = "Successfull fetched.";
+             //   obj.Status = "OK";
+             //   obj.Result = await _department.GetDepartmentByID(Id);
+            return Ok(await _department.GetDepartmentByID(Id));
+               //return Ok(obj);
+            
 
         }
 
@@ -67,7 +64,7 @@ namespace EmployeeMCrud.Controllers
                 }
 
                 obj.Message = "Added Successfully";
-                //obj.Status = "CREATED";
+                obj.Status = "CREATED";
                 return StatusCode(StatusCodes.Status201Created, obj);
             }
             else
@@ -75,7 +72,7 @@ namespace EmployeeMCrud.Controllers
                 await _department.UpdateDepartment(dep);
 
                 obj.Message = "Updated Successfully";
-                //obj.Status = "SUCCESS";
+                obj.Status = "SUCCESS";
                 return Ok(obj);
             }
         }
@@ -90,10 +87,10 @@ namespace EmployeeMCrud.Controllers
         {
             _department.DeleteDepartment(id);
             StatusResult<string> obj = new StatusResult<string>();
-            //obj.Message="Deleted Successfully";
-            //obj.Status="SUCCESS";
-            return new JsonResult("Deleted Successfully");
-            //return Ok(obj);
+            obj.Message="Deleted Successfully";
+            obj.Status="SUCCESS";
+            //return new JsonResult("Deleted Successfully");
+            return Ok(obj);
         }
     }
 }

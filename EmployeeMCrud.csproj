@@ -28,8 +28,4 @@
     <None Remove="Repositories\" />
     <None Remove="Microsoft.EntityFrameworkCore.Tools" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IRepositories\" />
-    <Folder Include="Repositories\" />
-  </ItemGroup>
 </Project>
